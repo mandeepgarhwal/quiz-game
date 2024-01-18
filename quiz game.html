@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        #options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #4891da;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .option:hover {
+            background-color: #45a049;
+        }
+
+        #score {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="quiz-container">
+        <div id="question"></div>
+        <div id="options"></div>
+        <div id="score">Score: 0</div>
+    </div>
+
+
+    <script>
+        const quizData = [
+            {
+                question: 'what is the capital of India?',
+                options: ['Noida', 'Dehli', 'Uttar-pardesh', 'Bihar'],
+                correctAnswer: 'Dehli'
+            },
+            {
+                question: 'What is the capital of Japan?',
+                options: ['Seoul', 'Beijing', 'Tokyo', 'Bangkok'],
+                correctAnswer: 'Tokyo'
+            },
+            {
+                question: 'Which programming language is often used for web development?',
+                options: ['Python', 'Java', 'JavaScript', 'C++'],
+                correctAnswer: 'JavaScript'
+            },
+            {
+                question: 'In which year did the Titanic sink?',
+                options: ['1912', '1905', '1920', '1898'],
+                correctAnswer: '1912'
+            },
+            {
+                question: 'What is the largest ocean on Earth?',
+                options: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+                correctAnswer: 'Pacific Ocean'
+            },
+            {
+                question: 'Who wrote "Romeo and Juliet"?',
+                options: ['Charles Dickens', 'William Shakespeare', 'Jane Austen', 'Leo Tolstoy'],
+                correctAnswer: 'William Shakespeare'
+            },
+            {
+                question: 'What is the capital of Australia?',
+                options: ['Sydney', 'Melbourne', 'Canberra', 'Perth'],
+                correctAnswer: 'Canberra'
+            },
+            {
+                question: 'What is the capital of France?',
+                options: ['Paris', 'London', 'Berlin', 'Madrid'],
+                correctAnswer: 'Paris'
+            },
+            {
+                question: 'Which planet is known as the Red Planet?',
+                options: ['Venus', 'Mars', 'Jupiter', 'Saturn'],
+                correctAnswer: 'Mars'
+            },
+            {
+                question: 'What is the largest mammal on Earth?',
+                options: ['Elephant', 'Blue Whale', 'Giraffe', 'Hippopotamus'],
+                correctAnswer: 'Blue Whale'
+            }
+        ]
+
+        const quizContainer = document.getElementById('quiz-container');
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options');
+        const scoreElement = document.getElementById('score');
+        const quizlength = 5
+
+        let score = 0;
+        let currentquizdata = quizData
+        let currentQuestionIndex = 0;
+        let questionremaining = 5
+
+
+        // const randomNumber = Math.floor(Math.random() * quizData.length)
+        // const randomQuestion = quizData[randomNumber]
+
+
+        // const currentQuestionIndex = quizData[randomNumber]
+        // console.log(randomQuestion);
+
+        function showQuestion() {
+            currentQuestionIndex = Math.floor(Math.random()* currentquizdata.length)
+            const currentQuestion = currentquizdata[currentQuestionIndex]
+
+            questionElement.textContent = currentQuestion.question
+            optionsContainer.innerHTML = '';
+            questionremaining -= 1
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button')
+                button.className = 'option';
+                button.textContent = option
+                optionsContainer.appendChild(button)
+                button.addEventListener('click', () => checkAnswer(option, currentQuestion))
+
+            })
+        }
+
+        function checkAnswer(selectedOption, currentQuestion) {
+            // const currentQuestion = quizData[currentQuestionIndex]
+            if (selectedOption === currentQuestion.correctAnswer) {
+                score++
+                // showQuestion()
+                console.log('very good');
+                document.getElementById("score").textContent = `Score: ${score}`
+                // randomNumber+1
+                // console.log(randomQuestion++);
+
+            }
+            console.log(currentquizdata)
+            var j = currentquizdata.indexOf(currentQuestion)
+            currentquizdata.splice(j,1)
+            console.log(currentquizdata)
+            // else{
+            //     console.log(quizData.length);
+
+            // }
+
+           
+
+
+            if (questionremaining > 0) {
+                showQuestion();
+            }
+            else {
+                showResult(score)
+            }
+        }
+
+        function showResult(score) {
+            if (score < Math.floor(0.4*quizlength)) {
+                quizContainer.innerHTML = `
+                <h2>Your Final score: </h2>
+                <p> ${score}out of ${quizlength}</p>
+                <p>Learning is a journey, not a destination.& thodi sharam bhi karo</p>
+              `;
+            } else if (score >= Math.floor(0.8*quizlength)) {
+                quizContainer.innerHTML =
+                    `<h2>Your Final score: ${score}out of ${quizlength} </h2>
+                <p>oh my god tuc great ho</p>`;
+            } else {
+                quizContainer.innerHTML = `
+              <h2>Your Final score: ${score}out of ${quizlength} </h2>
+              <p>chakk te fatte</p>`;
+            }
+        }
+        showQuestion()
+    </script>
+</body>
+
+</html>
